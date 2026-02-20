@@ -23,9 +23,11 @@ const authSlice = createSlice({
     builder.addCase(registerUserAction.pending, (state) => {});
     // fulfilled action/ success action
     builder.addCase(registerUserAction.fulfilled, (state, action) => {
+      // action: payload / data which is coming from the action
       state.isAuthenticated = true;
       state.user = action.payload.data.user;
       state.token = action.payload.data.token;
+      localStorage.setItem("token", action.payload.data.token); // to store the token in the local storage of the browser to maintain the session of the user.
       state.status = action.payload.status;
       state.loading = false;
       state.error = null;

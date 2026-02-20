@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { registerUser } from "../service/auth.service";
+import { useDispatch } from "react-redux";
+import { registerUserAction } from "../redux/actions/auth.action";
 
 const registerFormState = {
   name: "abhi",
@@ -47,23 +48,30 @@ const Register = () => {
     // value: value for the key which is being updated by the user.
   };
   // onSubmit --> when we will click on the submit button then it should call onSubmit event to perform some actions based on the form data and mostly to send the data to the backend.
+  // we need a hook to connect with ur action
+  // useDispatch: it will act as bridge between our component and redux store to move / dispatch the data from comp to action and so on to the backend.
+  const dispatch = useDispatch();
   const onSubmit = (e) => {
     e.preventDefault(); // to prevent the default behavior of the form which is to refresh the page when we submit the form.
     console.log("button clicked", registerForm);
-    try {
-      const res = registerUser(registerForm); // calling the registerUser function to send the data to the backend and to get the response from the backend.
-      // res ===> promise object ===> it will have 3 things : pending success(then) and failure(catch)
-      // here either success or failure will happen --> we will get the response from the backend and then we will perform some actions based on the response from the backend.
-      res
-        .then((response) => {
-          console.log("response from backend", response.data);
-          console.log(response.status);
-        })
-        .catch((err) => {}); // to get the response from the backend and to perform some actions based on the response from the backend.
-      console.log("response from backend");
-    } catch (error) {
-      console.log(error);
-    }
+    // we should avoid to pass the hook as an arg --> tight coupling --> not a good practice.
+
+    dispatch(registerUserAction(registerForm)); // dispatching the action to perform the api call to the backend for registering the user.
+
+    // try {
+    //   const res = registerUser(registerForm); // calling the registerUser function to send the data to the backend and to get the response from the backend.
+    //   // res ===> promise object ===> it will have 3 things : pending success(then) and failure(catch)
+    //   // here either success or failure will happen --> we will get the response from the backend and then we will perform some actions based on the response from the backend.
+    //   res
+    //     .then((response) => {
+    //       console.log("response from backend", response.data);
+    //       console.log(response.status);
+    //     })
+    //     .catch((err) => {}); // to get the response from the backend and to perform some actions based on the response from the backend.
+    //   console.log("response from backend");
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   // destructuring the json object to get the values from the registerForm state
   const { name, email, password, password2 } = registerForm;
