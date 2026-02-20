@@ -1,13 +1,13 @@
 import React from "react";
 
-const Landing = () => {
+const Landing = ({ appName }) => {
   return (
     <>
       {" "}
       <section class="landing">
         <div class="dark-overlay">
           <div class="landing-inner">
-            <h1 class="x-large">Developer Connector</h1>
+            <h1 class="x-large">{appName}</h1>
             <p class="lead">
               Create a developer profile/portfolio, share posts and get help
               from other developers

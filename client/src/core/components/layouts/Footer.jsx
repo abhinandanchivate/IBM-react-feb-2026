@@ -1,10 +1,9 @@
 import React from "react";
 
-const Footer = () => {
+const Footer = ({ appName }) => {
   return (
     <>
-      &copy; {new Date().getFullYear()} Developer Connector. All rights
-      reserved.
+      &copy; {new Date().getFullYear()} {appName}. All rights reserved.
     </>
   );
 };

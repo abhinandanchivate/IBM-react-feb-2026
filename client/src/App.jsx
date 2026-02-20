@@ -8,17 +8,22 @@ import Footer from "./core/components/layouts/Footer";
 import RootRouter from "./RootRouter";
 
 function App() {
+  const appName = "LearnQuest";
   // this return will render the the jsx code / to the UI.
   // it has ur declartive stuff where we can have html + js code (declarative manner) and it will be converted to the js code by the babel compiler and then it will be rendered to the UI.
   // <> </> is a react fragment ==> used to wrap the multiple element without adding any extra element / node to the DOM.
+  // props: used for sharing the data between the components --> from parent to child component.
+  // component Name : App
+  // parent component : App
+  // Child component : Navbar, Landing, Footer, RootRouter
 
   return (
     <>
-      <Navbar />
-      <RootRouter />
-      <Footer />
+      <Navbar appName={appName} />
+      <RootRouter appName={appName} />
+      <Footer appName={appName} />
     </>
   );
 }
-
+// Redux :
 export default App;

@@ -8,15 +8,17 @@ import Landing from "./core/components/layouts/Landing";
 // Routes : its a wrapper component for all your routes that we will declare to render the component based on the url path.
 // Route : its a component that will render the component based on the url matching at tthe runtime .
 import AuthRouter from "./auth/router/Index";
-const RootRouter = () => {
+const RootRouter = ({ appName }) => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Landing appName={appName} />} />
         <Route path="/auth/*" element={<AuthRouter />} />
       </Routes>
     </>
   );
 };
+// 100s components  : ? ---> will it increase the complexity of the app to share the data between the components ?
+// since they can share the data between parents and child component.
 
 export default RootRouter;
