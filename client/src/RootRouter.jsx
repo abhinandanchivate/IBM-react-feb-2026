@@ -8,12 +8,14 @@ import Landing from "./core/components/layouts/Landing";
 // Routes : its a wrapper component for all your routes that we will declare to render the component based on the url path.
 // Route : its a component that will render the component based on the url matching at tthe runtime .
 import AuthRouter from "./auth/router/Index";
+import DashboardRouter from "./dashboard/routers/Index";
 const RootRouter = ({ appName }) => {
   return (
     <>
       <Routes>
         <Route path="/" element={<Landing appName={appName} />} />
         <Route path="/auth/*" element={<AuthRouter />} />
+        <Route path="/dashboard/*" element={<DashboardRouter />} />
       </Routes>
     </>
   );
