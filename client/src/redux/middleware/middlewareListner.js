@@ -5,7 +5,6 @@ import {
   loginUserAction,
   registerUserAction,
 } from "../../auth/redux/actions/auth.action";
-import { loginUser } from "../../auth/service/auth.service";
 
 export const listnerMiddleware = createListenerMiddleware();
 export const setupListner = (navigate) => {

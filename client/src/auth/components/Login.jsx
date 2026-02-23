@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { loginUserAction } from "../redux/actions/auth.action";
 
 const loginFormState = {
   email: "",
@@ -14,7 +15,7 @@ const Login = () => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch();
+    dispatch(loginUserAction(formData));
   };
   const { email, password } = formData;
   return (

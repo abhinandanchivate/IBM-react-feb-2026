@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUserAction } from "../actions/auth.action";
+import { loginUserAction, registerUserAction } from "../actions/auth.action";
 const authState = {
   isAuthenticated: false,
   user: null,
