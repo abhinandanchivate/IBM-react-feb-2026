@@ -19,6 +19,27 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     // u will come across only 3 action based situations : no more extra actions are allowed here.
 
+    // pending action for login user action
+    builder.addCase(loginUserAction.pending, (state) => {});
+    // fulfilled action for login user action
+    builder.addCase(loginUserAction.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+
+      state.token = action.payload.data.token;
+      localStorage.setItem("token", action.payload.data.token); // to store the token in the local storage of the browser to maintain the session of the user.
+      state.status = action.payload.status;
+      state.loading = false;
+      state.error = null;
+    });
+    // rejected action for login user action
+    builder.addCase(loginUserAction.rejected, (state, action) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+      state.status = action.payload.status;
+      state.loading = false;
+      state.error = action.payload.data.message;
+    });
     // pending action
     builder.addCase(registerUserAction.pending, (state) => {});
     // fulfilled action/ success action

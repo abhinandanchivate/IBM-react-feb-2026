@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { registerUser } from "../../service/auth.service";
+import { loginUser, registerUser } from "../../service/auth.service";
 
 export const registerUserAction = createAsyncThunk(
   "auth/registerUserAction", // action name, it should be unique to ur application. ---> we will use the name of the reducer followed by / and then action name
@@ -24,3 +24,14 @@ export const registerUserAction = createAsyncThunk(
 
 // fulfilled/ success : when the api call is successful
 // rejected/failure : when the api call is failed
+export const loginUserAction = createAsyncThunk(
+  "auth/loginUserAction",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const data = await loginUser(formData);
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.data);
+    }
+  },
+);

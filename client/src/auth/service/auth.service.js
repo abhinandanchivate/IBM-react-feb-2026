@@ -22,3 +22,13 @@ export const registerUser = async (formData) => {
     throw { data: error.response.data, status: error.response.status }; // we will return the error data and status from the backend to the component where we are calling this registerUser function to perform some actions based on the response from the backend.
   }
 };
+
+export const loginUser = async (formData) => {
+  try {
+    const res = await API.post("/auth", formData); // endpoint for logging in the user in the backend
+    return { data: res.data, status: res.status };
+  } catch (error) {
+    console.log(error);
+    throw { data: error.response.data, status: error.response.status };
+  }
+};
