@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCurrentProfileAction } from "../../profiles/router/redux/actions";
+import { getCurrentProfileAction } from "../../profiles/redux/actions";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   // when that action needs to be called ? --> when user is successfully logged in or registered then we need to navigate to the dashboard page.---> it should call the action during the loading of dashboard page / component.
@@ -101,10 +102,10 @@ const Dashboard = () => {
           <i class="fas fa-user"></i> Welcome John Doe
         </p>
         {error && error.msg === "There is no profile for this user" ? (
-          <button class="btn btn-danger">
+          <Link to="/profile/create-profile" class="btn btn-danger">
             <i class="fas fa-user-minus"></i>
             Create My Account
-          </button>
+          </Link>
         ) : (
           profileData
         )}

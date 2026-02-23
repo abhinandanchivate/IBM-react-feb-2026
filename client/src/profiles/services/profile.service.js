@@ -2,6 +2,15 @@
 
 import API from "../../utils/api";
 
+export const createProfile = async (formData) => {
+  try {
+    const res = await API.post("/profile", formData);
+    return { data: res.data, status: res.status };
+  } catch (error) {
+    throw { data: error.response.data, status: error.response.status };
+  }
+};
+
 export const getCurrentProfile = async () => {
   try {
     const res = await API.get("/profile/me"); // endpoint to get the profile of the logged in user from the backend

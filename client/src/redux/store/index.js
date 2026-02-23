@@ -4,7 +4,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 // its a one time activity / configuration.
 import authReducer from "../../auth/redux/slices";
-import profileReducer from "../../profiles/router/redux/slices";
+import profileReducer from "../../profiles/redux/slices";
 import { listnerMiddleware } from "../middleware/middlewareListner";
 
 const store = configureStore({

@@ -9,6 +9,7 @@ import Landing from "./core/components/layouts/Landing";
 // Route : its a component that will render the component based on the url matching at tthe runtime .
 import AuthRouter from "./auth/router/Index";
 import DashboardRouter from "./dashboard/routers/Index";
+import ProfileRouter from "./profiles/router/Index";
 const RootRouter = ({ appName }) => {
   return (
     <>
@@ -16,6 +17,7 @@ const RootRouter = ({ appName }) => {
         <Route path="/" element={<Landing appName={appName} />} />
         <Route path="/auth/*" element={<AuthRouter />} />
         <Route path="/dashboard/*" element={<DashboardRouter />} />
+        <Route path="/profile/*" element={<ProfileRouter />} />
       </Routes>
     </>
   );
