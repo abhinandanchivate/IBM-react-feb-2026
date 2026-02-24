@@ -20,3 +20,5 @@ export const getCurrentProfile = async () => {
     throw { data: error.response.data, status: error.response.status }; // we will return the error data and status from the backend to the component where we are calling this getCurrentProfile function to perform some actions based on the response from the backend.
   }
 };
+// add-exp : we have to work with put method.
+// add-edu: we have to work with put method.
