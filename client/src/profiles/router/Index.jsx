@@ -6,6 +6,7 @@ const Index = () => {
   return (
     <Routes>
       <Route path="/create-profile" element={<CreateProfile></CreateProfile>} />
+      <Route path="/edit-profile" element={<CreateProfile></CreateProfile>} />
     </Routes>
   );
 };

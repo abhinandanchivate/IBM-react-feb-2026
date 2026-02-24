@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createProfileAction } from "../../redux/actions";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createProfileAction,
+  getCurrentProfileAction,
+} from "../../redux/actions";
+import { Link, useMatch } from "react-router-dom";
 const profileState = {
   company: "",
   website: "",
@@ -18,6 +22,11 @@ const profileState = {
 
 const CreateProfile = () => {
   // do we have action ready ? yes
+  // are we following create / update path ? here we need to take a decision
+  // we have to use a hook
+  // useMatch --> to check whether we are in create profile path or update profile path
+
+  const isCreate = Boolean(useMatch("/profile/create-profile"));
   const dispatch = useDispatch();
   const [formData, setFormData] = useState(profileState);
   const onChange = (e) => {
@@ -61,6 +70,27 @@ const CreateProfile = () => {
     console.log(profileData);
     dispatch(createProfileAction(profileData));
   };
+
+  // do we have any data connection from the store ? : No
+  // we should use useSelector hook to get the data from the store.
+  const { profile } = useSelector((state) => state.profile); // to get the profile data from the store which is coming from the backend in the response of the api call.
+  // useEffect to load the existing profile data when we are in the edit profile part
+  useEffect(() => {
+    if (!isCreate)
+      // when we have edit --> false --> !false --> true
+      dispatch(getCurrentProfileAction());
+  }, [dispatch, isCreate]); // we will call the getCurrentProfileAction only when the component is mounted and when we are in the edit profile part.
+  useEffect(() => {
+    if (!profile) return;
+    setFormData({
+      ...formData,
+      ...profile,
+      ...profile.social,
+      skills: Array.isArray(profile.skills) ? profile.skills.join(",") : "",
+    });
+    // store profile data -=--> form data state.
+  }, [profile]); // when we will get the profile data from the store then we will set the profile data in the formData state to show the existing data in the form fields when we are in the edit profile part.
+
   const {
     company,
     website,
@@ -75,11 +105,69 @@ const CreateProfile = () => {
     youtube,
     instagram,
   } = formData;
+  // to show or hide the social links fields --> we need to maintain a state for it
+  const [displaySocialLinks, setDisplaySocialLinks] = useState(false);
+  const socialLinks = (
+    <>
+      <div class="form-group social-input">
+        <i class="fab fa-twitter fa-2x"></i>
+        <input
+          type="text"
+          placeholder="Twitter URL"
+          name="twitter"
+          onChange={onChange}
+          value={twitter}
+        />
+      </div>
+      <div class="form-group social-input">
+        <i class="fab fa-facebook fa-2x"></i>
+        <input
+          type="text"
+          placeholder="Facebook URL"
+          name="facebook"
+          onChange={onChange}
+          value={facebook}
+        />
+      </div>
+      <div class="form-group social-input">
+        <i class="fab fa-youtube fa-2x"></i>
+        <input
+          type="text"
+          placeholder="YouTube URL"
+          name="youtube"
+          onChange={onChange}
+          value={youtube}
+        />
+      </div>
+      <div class="form-group social-input">
+        <i class="fab fa-linkedin fa-2x"></i>
+        <input
+          type="text"
+          placeholder="Linkedin URL"
+          name="linkedin"
+          onChange={onChange}
+          value={linkedin}
+        />
+      </div>
+      <div class="form-group social-input">
+        <i class="fab fa-instagram fa-2x"></i>
+        <input
+          type="text"
+          placeholder="Instagram URL"
+          name="instagram"
+          onChange={onChange}
+          value={instagram}
+        />
+      </div>
+    </>
+  );
   return (
     <>
       {" "}
       <section class="container">
-        <h1 class="large text-primary">Create Your Profile</h1>
+        <h1 class="large text-primary">
+          {isCreate ? "Create" : "Edit"} Your Profile
+        </h1>
         <p class="lead">
           <i class="fas fa-user"></i> Let's get some information to make your
           profile stand out
@@ -174,70 +262,21 @@ const CreateProfile = () => {
           </div>
 
           <div class="my-2">
-            <button type="button" class="btn btn-light">
+            <button
+              type="button"
+              class="btn btn-light"
+              onClick={() => setDisplaySocialLinks(!displaySocialLinks)}
+            >
               Add Social Network Links
             </button>
             <span>Optional</span>
           </div>
+          {displaySocialLinks && socialLinks}
 
-          <div class="form-group social-input">
-            <i class="fab fa-twitter fa-2x"></i>
-            <input
-              type="text"
-              placeholder="Twitter URL"
-              name="twitter"
-              onChange={onChange}
-              value={twitter}
-            />
-          </div>
-
-          <div class="form-group social-input">
-            <i class="fab fa-facebook fa-2x"></i>
-            <input
-              type="text"
-              placeholder="Facebook URL"
-              name="facebook"
-              onChange={onChange}
-              value={facebook}
-            />
-          </div>
-
-          <div class="form-group social-input">
-            <i class="fab fa-youtube fa-2x"></i>
-            <input
-              type="text"
-              placeholder="YouTube URL"
-              name="youtube"
-              onChange={onChange}
-              value={youtube}
-            />
-          </div>
-
-          <div class="form-group social-input">
-            <i class="fab fa-linkedin fa-2x"></i>
-            <input
-              type="text"
-              placeholder="Linkedin URL"
-              name="linkedin"
-              onChange={onChange}
-              value={linkedin}
-            />
-          </div>
-
-          <div class="form-group social-input">
-            <i class="fab fa-instagram fa-2x"></i>
-            <input
-              type="text"
-              placeholder="Instagram URL"
-              name="instagram"
-              onChange={onChange}
-              value={instagram}
-            />
-          </div>
           <input type="submit" class="btn btn-primary my-1" />
-          <a class="btn btn-light my-1" href="dashboard.html">
+          <Link to="/dashboard" class="btn btn-light my-1">
             Go Back
-          </a>
+          </Link>
         </form>
       </section>
     </>

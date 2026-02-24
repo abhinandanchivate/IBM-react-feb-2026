@@ -5,11 +5,16 @@ import {
   loginUserAction,
   registerUserAction,
 } from "../../auth/redux/actions/auth.action";
+import { createProfileAction } from "../../profiles/redux/actions";
 
 export const listnerMiddleware = createListenerMiddleware();
 export const setupListner = (navigate) => {
   listnerMiddleware.startListening({
-    matcher: isAnyOf(registerUserAction.fulfilled, loginUserAction.fulfilled),
+    matcher: isAnyOf(
+      registerUserAction.fulfilled,
+      loginUserAction.fulfilled,
+      createProfileAction.fulfilled,
+    ),
     effect: async (action, listenerApi) => {
       navigate("/dashboard");
     },

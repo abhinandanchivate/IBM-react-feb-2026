@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCurrentProfileAction } from "../actions";
+import { createProfileAction, getCurrentProfileAction } from "../actions";
 
 // profile slice
 const profileState = {
@@ -15,6 +15,24 @@ const profileSlice = createSlice({
   initialState: profileState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(createProfileAction.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(createProfileAction.fulfilled, (state, action) => {
+      state.profile = action.payload.data; // to set the profile data in the state which is coming from the backend in the response of the api call.
+      state.profiles = [];
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(createProfileAction.rejected, (state, action) => {
+      state.profile = null;
+      state.profiles = [];
+      state.loading = false;
+      state.error = action.payload.data; // to set the error message in the state which is coming from the backend in the response of the api call if any error occurs.
+
+      state.loading = false;
+      state.error = action.payload.data; // to set the error message in the state which is coming from the backend in the response of the api call if any error occurs.
+    });
     // we will handle the actions for getCurrentProfileAction here in the extra reducers because it is an async action and we will have 3 actions for this async action : pending, fulfilled and rejected.
     builder.addCase(getCurrentProfileAction.pending, (state) => {
       state.loading = true;

@@ -25,9 +25,9 @@ const Dashboard = () => {
     <>
       {" "}
       <div class="dash-buttons">
-        <a href="create-profile.html" class="btn btn-light">
+        <Link to="/profile/edit-profile" class="btn btn-light">
           <i class="fas fa-user-circle text-primary"></i> Edit Profile
-        </a>
+        </Link>
         <a href="add-experience.html" class="btn btn-light">
           <i class="fab fa-black-tie text-primary"></i> Add Experience
         </a>
