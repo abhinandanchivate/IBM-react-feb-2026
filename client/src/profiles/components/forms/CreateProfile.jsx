@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { createProfileAction } from "../../redux/actions";
 const profileState = {
   company: "",
   website: "",
@@ -18,15 +19,47 @@ const profileState = {
 const CreateProfile = () => {
   // do we have action ready ? yes
   const dispatch = useDispatch();
-  const [profile, setProfile] = useState(profileState);
-
+  const [formData, setFormData] = useState(profileState);
   const onChange = (e) => {
     const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(createProfileAction(profile));
+    // can i send formData directly to the action ?
+    // No --> formData json strucutrre is diff from the data which is expected by the backend
+    /*
+    {
+        "company": "TechNova Solutions",
+        "website": "https://technova.com",
+        "location": "Pune, India",
+        "status": "Senior Backend Developer",
+        "skills": [
+          "Java",
+          "Spring Boot",
+          "React",
+          "MongoDB",
+          "Docker"
+        ],
+        "bio": "Passionate backend engineer building scalable payment systems.",
+        "githubusername": "abhi-dev",
+        
+        ],
+       
+          "youtube": "https://youtube.com/@abhitech",
+          "twitter": "https://twitter.com/abhidev",
+          "facebook": "https://facebook.com/abhidev",
+          "linkedin": "https://linkedin.com/in/abhidev",
+          "instagram": "https://instagram.com/abhidev"
+        
+      }
+    * */
+    // we need to convert the skills string --> array of strings
+    const skillsArray = formData.skills.split(",").map((skill) => skill.trim());
+
+    const profileData = { ...formData, skills: skillsArray };
+    console.log(profileData);
+    dispatch(createProfileAction(profileData));
   };
   const {
     company,
@@ -41,7 +74,7 @@ const CreateProfile = () => {
     linkedin,
     youtube,
     instagram,
-  } = profile;
+  } = formData;
   return (
     <>
       {" "}
