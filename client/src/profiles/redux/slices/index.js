@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createProfileAction, getCurrentProfileAction } from "../actions";
+import {
+  addExperienceAction,
+  createProfileAction,
+  getCurrentProfileAction,
+} from "../actions";
 
 // profile slice
 const profileState = {
@@ -15,6 +19,19 @@ const profileSlice = createSlice({
   initialState: profileState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(addExperienceAction.pending, (state) => {
+      state.loading = true;
+    });
+
+    builder.addCase(addExperienceAction.fulfilled, (state, action) => {
+      state.profile = action.payload.data; // to set the profile data in the state which is coming from the backend in the response of the api call.
+      state.loading = false;
+    });
+    builder.addCase(addExperienceAction.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload.data; // to set the error message in the state which is coming from the backend in the response of the api call if any error occurs.
+    });
+
     builder.addCase(createProfileAction.pending, (state) => {
       state.loading = true;
     });

@@ -21,4 +21,15 @@ export const getCurrentProfile = async () => {
   }
 };
 // add-exp : we have to work with put method.
+// because exp is a part of ur profile --> stored in mongodb as an array.
+// ur profile is an existing profile ---> to update anything --> in rest =--> put method.
+export const addExperience = async (formData) => {
+  try {
+    const res = await API.put("/profile/experience", formData);
+    return { data: res.data, status: res.status };
+  } catch (error) {
+    console.log(error);
+    throw { data: error.response.data, status: error.response.status };
+  }
+};
 // add-edu: we have to work with put method.
