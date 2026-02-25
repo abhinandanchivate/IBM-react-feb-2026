@@ -1,11 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { loginUser, registerUser } from "../../service/auth.service";
+import { loadUser, loginUser, registerUser } from "../../service/auth.service";
 
 export const registerUserAction = createAsyncThunk(
   "auth/registerUserAction", // action name, it should be unique to ur application. ---> we will use the name of the reducer followed by / and then action name
-  async (formData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue, dispatch }) => {
     try {
       const data = await registerUser(formData);
+      dispatch(loadUserAction()); // to load the user data in the store after successful registration of the user.
       return data;
     } catch (error) {
       return rejectWithValue(error.data);
@@ -26,9 +27,23 @@ export const registerUserAction = createAsyncThunk(
 // rejected/failure : when the api call is failed
 export const loginUserAction = createAsyncThunk(
   "auth/loginUserAction",
-  async (formData, { rejectWithValue }) => {
+  async (formData, { rejectWithValue, dispatch }) => {
     try {
       const data = await loginUser(formData);
+
+      dispatch(loadUserAction()); // to load the user data in the store after successful login of the user. --> it will help us to get the user data in the store which is coming from the backend in the response of the api call for loading the user data. --> we can use this user data in any component where we want to show the user data like username, email etc. --> it will help us to maintain the session of the user in our application by storing the user data in the store after successful login of the user.
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.data);
+    }
+  },
+);
+export const loadUserAction = createAsyncThunk(
+  "auth/loadUserAction",
+  async (_, { rejectWithValue }) => {
+    try {
+      console.log("inside the load user action");
+      const data = await loadUser();
       return data;
     } catch (error) {
       return rejectWithValue(error.data);

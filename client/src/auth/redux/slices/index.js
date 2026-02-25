@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUserAction, registerUserAction } from "../actions/auth.action";
+import {
+  loadUserAction,
+  loginUserAction,
+  registerUserAction,
+} from "../actions/auth.action";
 const authState = {
   isAuthenticated: false,
   user: null,
@@ -17,6 +21,22 @@ const authSlice = createSlice({
   // logout : isAuthenticated : false --> direct manipulation fo the state.
 
   extraReducers: (builder) => {
+    builder.addCase(loadUserAction.pending, (state) => {});
+    builder.addCase(loadUserAction.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+      state.user = action.payload.data;
+      state.status = action.payload.status;
+      state.loading = false;
+      state.error = null;
+    });
+    builder.addCase(loadUserAction.rejected, (state, action) => {
+      state.isAuthenticated = false;
+      state.user = null;
+      state.token = null;
+      state.status = action.payload.status;
+      state.loading = false;
+      state.error = action.payload.data.message;
+    });
     // u will come across only 3 action based situations : no more extra actions are allowed here.
 
     // pending action for login user action
@@ -63,6 +83,7 @@ const authSlice = createSlice({
       state.error = action.payload.data.message;
     });
   },
+
   // extrareducers : used to handle the rest based actions
 });
 

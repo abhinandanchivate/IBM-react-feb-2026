@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import DashboardAction from "./DashboardAction";
 import Experience from "./Experience";
 import Education from "./Education";
+import { loadUserAction } from "../../auth/redux/actions/auth.action";
 
 const Dashboard = () => {
   // when that action needs to be called ? --> when user is successfully logged in or registered then we need to navigate to the dashboard page.---> it should call the action during the loading of dashboard page / component.
   // anything from store
   const { profile, loading, error } = useSelector((state) => state.profile); // to get the profile data from the store which is coming from the backend in the response of the api call.
   // useSelector : it will help us to connect to the store to get the data from profile part from the app state.
-  const { isAuthenticated } = useSelector((state) => state.auth); // to get the isAuthenticated data from the store which is coming from the backend in the response of the api call.
+  const { isAuthenticated, user } = useSelector((state) => state.auth); // to get the isAuthenticated data from the store which is coming from the backend in the response of the api call.
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCurrentProfileAction());
@@ -44,7 +45,7 @@ const Dashboard = () => {
       <section class="container">
         <h1 class="large text-primary">Dashboard</h1>
         <p class="lead">
-          <i class="fas fa-user"></i> Welcome John Doe
+          <i class="fas fa-user"></i> Welcome {user?.name}
         </p>
         {error && error.msg === "There is no profile for this user" ? (
           <Link to="/profile/create-profile" class="btn btn-danger">
