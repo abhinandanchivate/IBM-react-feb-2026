@@ -16,7 +16,7 @@ const Navbar = ({ appName }) => {
         </h1>
         <ul>
           <li>
-            <a href="profiles.html">Developers</a>
+            <Link to="/profile/all">Developers</Link>
           </li>
           <li>
             <Link to="/auth/register">Register</Link>

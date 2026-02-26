@@ -4,6 +4,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   addExperience,
   createProfile,
+  getAllProfiles,
   getCurrentProfile,
 } from "../../services/profile.service";
 
@@ -36,6 +37,18 @@ export const addExperienceAction = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const { data, status } = await addExperience(formData);
+      return { data, status };
+    } catch (error) {
+      return rejectWithValue({ data: error.data, status: error.status });
+    }
+  },
+);
+
+export const getAllProfilesAction = createAsyncThunk(
+  "profile/getAllProfilesAction",
+  async (arg, { rejectWithValue }) => {
+    try {
+      const { data, status } = await getAllProfiles();
       return { data, status };
     } catch (error) {
       return rejectWithValue({ data: error.data, status: error.status });

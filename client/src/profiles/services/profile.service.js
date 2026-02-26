@@ -2,6 +2,15 @@
 
 import API from "../../utils/api";
 
+export const getAllProfiles = async () => {
+  try {
+    const res = await API.get("/profile");
+    return { data: res.data, status: res.status };
+  } catch (error) {
+    throw { data: error.response.data, status: error.response.status };
+  }
+};
+
 export const createProfile = async (formData) => {
   try {
     const res = await API.post("/profile", formData);
