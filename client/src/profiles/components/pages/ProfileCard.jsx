@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProfileCard = () => {
+const ProfileCard = ({ profile }) => {
   return (
     <>
       {" "}
@@ -11,30 +11,21 @@ const ProfileCard = () => {
           alt=""
         />
         <div>
-          <h2>John Doe</h2>
-          <p>Developer at Microsoft</p>
-          <p>Seattle, WA</p>
+          <h2>{profile?.user.name}</h2>
+          <p>{profile?.title}</p>
+          <p>{profile?.location}</p>
           <a href="profile.html" class="btn btn-primary">
             View Profile
           </a>
         </div>
 
         <ul>
-          <li class="text-primary">
-            <i class="fas fa-check"></i> HTML
-          </li>
-          <li class="text-primary">
-            <i class="fas fa-check"></i> CSS
-          </li>
-          <li class="text-primary">
-            <i class="fas fa-check"></i> JavaScript
-          </li>
-          <li class="text-primary">
-            <i class="fas fa-check"></i> Python
-          </li>
-          <li class="text-primary">
-            <i class="fas fa-check"></i> C#
-          </li>
+          // handle skills array here
+          {profile?.skills.map((skill, index) => (
+            <li key={index} class="text-primary">
+              <i class="fas fa-check"></i> {skill}
+            </li>
+          ))}
         </ul>
       </div>
     </>

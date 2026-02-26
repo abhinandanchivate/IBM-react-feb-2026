@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ProfileCard from "./ProfileCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProfilesAction } from "../../redux/actions";
 
 const Profiles = () => {
+  const dispatch = useDispatch();
+  // while loading the component --> useEffect
+
+  useEffect(() => {
+    dispatch(getAllProfilesAction());
+  }, [dispatch]);
+
+  const { profiles } = useSelector((state) => state.profile);
   return (
     <>
       {" "}
@@ -12,6 +22,12 @@ const Profiles = () => {
           developers
         </p>
         <div class="profiles">
+          {profiles.map(
+            (profile) => (
+              console.log(profile),
+              (<ProfileCard key={profile._id} profile={profile}></ProfileCard>)
+            ),
+          )}
           <ProfileCard></ProfileCard>
         </div>
       </section>
