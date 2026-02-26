@@ -41,4 +41,15 @@ export const addExperience = async (formData) => {
     throw { data: error.response.data, status: error.response.status };
   }
 };
+
+// api/profile/user/:user_id
+export const getProfileById = async (userId) => {
+  try {
+    const res = await API.get(`/profile/user/${userId}`);
+    return { data: res.data, status: res.status };
+  } catch (error) {
+    console.log(error);
+    throw { data: error.response.data, status: error.response.status };
+  }
+};
 // add-edu: we have to work with put method.

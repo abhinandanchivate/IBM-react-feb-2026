@@ -6,7 +6,9 @@ import {
   createProfile,
   getAllProfiles,
   getCurrentProfile,
+  getProfileById,
 } from "../../services/profile.service";
+import { useId } from "react";
 
 export const getCurrentProfileAction = createAsyncThunk(
   "profile/getCurrentProfileAction",
@@ -49,6 +51,19 @@ export const getAllProfilesAction = createAsyncThunk(
   async (arg, { rejectWithValue }) => {
     try {
       const { data, status } = await getAllProfiles();
+      return { data, status };
+    } catch (error) {
+      return rejectWithValue({ data: error.data, status: error.status });
+    }
+  },
+);
+
+export const getProfileByIdAction = createAsyncThunk(
+  "profile/getProfileByIdAction",
+  async (id, { rejectWithValue }) => {
+    try {
+      console.log(id);
+      const { data, status } = await getProfileById(id);
       return { data, status };
     } catch (error) {
       return rejectWithValue({ data: error.data, status: error.status });

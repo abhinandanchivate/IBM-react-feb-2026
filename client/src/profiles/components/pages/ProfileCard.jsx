@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ProfileCard = ({ profile }) => {
   return (
@@ -14,9 +15,9 @@ const ProfileCard = ({ profile }) => {
           <h2>{profile?.user.name}</h2>
           <p>{profile?.title}</p>
           <p>{profile?.location}</p>
-          <a href="profile.html" class="btn btn-primary">
+          <Link to={`/profile/${profile?.user._id}`} class="btn btn-primary">
             View Profile
-          </a>
+          </Link>
         </div>
 
         <ul>
