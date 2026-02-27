@@ -47,3 +47,8 @@ const Profiletop = ({ profile }) => {
 };
 
 export default Profiletop;
+
+// 1. private component : component level access (RBAC) --> private component.
+// 3. testing
+// 4. custom hooks.
+// 2. logout with reducers
