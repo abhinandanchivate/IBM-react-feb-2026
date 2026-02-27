@@ -7,16 +7,26 @@ import {
 const authState = {
   isAuthenticated: false,
   user: null,
-  token: null,
+  token: localStorage.getItem("token"),
   status: "",
-  loading: false,
+  loading: true,
   error: null,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState: authState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.error = null;
+      state.token = null;
+      localStorage.removeItem("token");
+      state.status = "";
+      state.loading = false;
+      state.user = null;
+    },
+  },
   // reducers: to handle only sync actions where we can have direct manipulation of the state
   // logout : isAuthenticated : false --> direct manipulation fo the state.
 
@@ -89,5 +99,6 @@ const authSlice = createSlice({
 
 // slice is helping us to get the reducers
 export default authSlice.reducer;
+export const { logout } = authSlice.actions;
 // declare the slice and get the reducer from it
 // register the reducer in the store, under the reducers details in the store file.

@@ -50,5 +50,7 @@ export default Profiletop;
 
 // 1. private component : component level access (RBAC) --> private component.
 // 3. testing
-// 4. custom hooks.
+// 4. custom hooks. we used hooks like useSelector , usenavigation, useEeffect, usestate, etc.
+// useAuth
+
 // 2. logout with reducers

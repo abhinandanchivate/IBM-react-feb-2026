@@ -9,6 +9,7 @@ const ProtectedRoute = ({ children }) => {
   if (loading) {
     return <>Loading....</>;
   }
+  console.log(isAuthenticated);
   return isAuthenticated ? children : <Navigate to="/auth/login"></Navigate>;
   // navigate hook ---> i should use navigate component since we are dealing with return statement.
 };
