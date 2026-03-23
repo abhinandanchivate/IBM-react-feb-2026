@@ -11,9 +11,10 @@ import RootRouter from "./RootRouter";
 // this component is used to wire / bundle the application basic building components.
 
 function App() {
+  const appName = "IBMConnector";
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar appName={appName}></Navbar>
       <RootRouter></RootRouter>
       <Footer></Footer>
     </>

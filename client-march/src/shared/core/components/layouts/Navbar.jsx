@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Test from "./Test";
 
-const Navbar = () => {
+const Navbar = ({ appName }) => {
   return (
     <nav class="navbar bg-dark">
+      <Test appName={appName}></Test>
       <h1>
         <Link to="/">
-          <i class="fas fa-code"></i> DevConnector
+          <i class="fas fa-code"></i> {appName}
         </Link>
       </h1>
       <ul>
