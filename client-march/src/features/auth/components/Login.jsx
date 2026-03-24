@@ -1,27 +1,32 @@
 import React from "react";
 import { useState } from "react";
 import { loginService } from "../services/auth.service";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUserAction } from "../rtk/auth.action";
 
 const Login = () => {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
+  const dispatch = useDispatch();
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    const res = loginService(form);
-    res
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
+    dispatch(loginUserAction(form));
+    // const res = loginService(form);
+    // res
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response);
+    //   });
   };
   const { email, password } = form;
   return (

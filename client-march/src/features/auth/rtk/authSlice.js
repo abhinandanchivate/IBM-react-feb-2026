@@ -1,7 +1,7 @@
 // authentication status, user details, token , error related to auth it should hold it.
 
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUserAction } from "./auth.action";
+import { loginUserAction, registerUserAction } from "./auth.action";
 
 const authState = {
   isAuthenticated: false,
@@ -23,10 +23,24 @@ const authSlice = createSlice({
 
   // will hold any rest api related stuff / direct UI related BL handlings
   extraReducers: (builder) => {
-    // all3 cases for register
-    builder.addCase(registerUserAction.pending, (state) => {
-      state.loading = true;
+    // all 3 cases for login
+    // builder.addCase(loginUserAction.pending, (state) => {});
+    // automatically it will take that pending situation with default values.
+
+    builder.addCase(loginUserAction.fulfilled, (state, action) => {
+      state.isAuthenticated = true;
+      state.token = action.payload.data;
+      state.status = action.payload.status;
+      state.loading = false;
+      state.error = null;
     });
+    builder.addCase(loginUserAction.rejected, (state, action) => {
+      state.error = action.payload.data;
+    });
+    // all3 cases for register
+    // builder.addCase(registerUserAction.pending, (state) => {
+    //   state.loading = true;
+    // });
     // state=>{} will help us to modify the authState / authReducer part .
     builder.addCase(
       registerUserAction.fulfilled,

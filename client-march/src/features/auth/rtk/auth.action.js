@@ -2,7 +2,7 @@
 // this action will consume the registerService (which will perform the rest call to the backend )
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { registerService } from "../services/auth.service";
+import { loginService, registerService } from "../services/auth.service";
 
 export const registerUserAction = createAsyncThunk(
   "auth/registerUserAction",
@@ -24,3 +24,15 @@ export const registerUserAction = createAsyncThunk(
 // dispatch : to call the other action
 // rejectedwithvalue : we will use to throw the exceptional details.
 // formData : data passed by component for processing purpose.
+
+export const loginUserAction = createAsyncThunk(
+  "auth/loginUserAction",
+  async (formData, { dispatch, rejectWithValue }) => {
+    try {
+      const res = loginService(formData);
+      return res;
+    } catch (error) {
+      rejectWithValue(error.data);
+    }
+  },
+);
