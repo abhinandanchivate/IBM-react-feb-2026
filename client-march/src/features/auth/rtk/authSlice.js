@@ -36,7 +36,7 @@ const authSlice = createSlice({
       ) => {
         state.isAuthenticated = true;
         state.loading = false;
-        state.token = action.payload.data.token;
+        state.token = action.payload.data?.token;
       },
     );
     builder.addCase(registerUserAction.rejected, (state, action) => {

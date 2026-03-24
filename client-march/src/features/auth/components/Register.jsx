@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { registerService } from "../services/auth.service";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { registerUserAction } from "../rtk/auth.action";
 
 // whenever we want to initialize the state we will declare the details to initialize the state outside.
@@ -13,6 +13,8 @@ const formState = {
   password2: "",
 };
 const Register = () => {
+  // RTK they provided a hook called useSelector we will use the names which are registered in ur store.js
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
   // from RTK we need a dispatch ==> will be async and it is connected with middleware.
   const dispatch = useDispatch();
   // in react we do have a hook called useNavigate
@@ -77,6 +79,7 @@ const Register = () => {
     e.preventDefault();
     dispatch(registerUserAction(form));
   };
+
   const { name, email, password, password2 } = form;
 
   return (

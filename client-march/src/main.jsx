@@ -1,17 +1,31 @@
-import { StrictMode } from "react";
+import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useNavigate } from "react-router-dom";
 import store from "./rtk/store.js";
+import { setUpListner } from "./rtk/middleware/middlewareListner.js";
 // we must integrate our redux store with our application in main.jsx to handle that integartion
 // we must use the element called Provider ==> react-redux
-
+const BootstrapListner = () => {
+  // life cycle hook called useEffect
+  // will have 3 formats
+  const navigate = useNavigate();
+  useEffect(() => {
+    setUpListner(navigate);
+  }, [navigate]);
+  // setuplistner ==> is it our user defined function.
+  // is managing the middleware listner.
+  // this useeffect format will be called after component renders.
+  // this format is used for side effects ==> api call, event listners, navigation hook etc).
+  // [] ==> dependency array ==> useeffect over the 1st render ==>whenever  navigate the get the changes changes
+};
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <Router>
+        <BootstrapListner></BootstrapListner>
         <App />
       </Router>
     </Provider>
