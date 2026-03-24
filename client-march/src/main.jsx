@@ -10,10 +10,11 @@ import store from "./rtk/store.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={store}></Provider>
-    <Router>
-      <App />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
   </StrictMode>,
 );
 

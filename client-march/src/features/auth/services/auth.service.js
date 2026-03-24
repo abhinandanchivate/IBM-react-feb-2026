@@ -13,7 +13,7 @@ export const registerService = async (data) => {
     return { status: true, data: res.data };
   } catch (error) {
     // console.log(error);
-    throw error; // it will throw the error to the component where we are calling this service.
+    throw { status: error.response.status, data: error.response.data }; // it will throw the error to the component where we are calling this service.
   }
 
   // http://localhost:9500/api/users complete URL : baseURL + /api +/users
@@ -28,6 +28,6 @@ export const loginService = async (data) => {
     return { status: true, data: res.data };
   } catch (error) {
     console.log(error);
-    return { status: false, error };
+    return { status: false, data: error };
   }
 };

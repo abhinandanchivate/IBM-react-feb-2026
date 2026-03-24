@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { registerService } from "../services/auth.service";
+import { useDispatch } from "react-redux";
+import { registerUserAction } from "../rtk/auth.action";
 
 // whenever we want to initialize the state we will declare the details to initialize the state outside.
 const formState = {
@@ -11,6 +13,8 @@ const formState = {
   password2: "",
 };
 const Register = () => {
+  // from RTK we need a dispatch ==> will be async and it is connected with middleware.
+  const dispatch = useDispatch();
   // in react we do have a hook called useNavigate
   const navigate = useNavigate();
   // to hold the data ==> state
@@ -38,37 +42,41 @@ const Register = () => {
     // form : our state object
     // ...form: we need to understand the concept of ... (spread operator).
   };
-  const onSubmit = (e) => {
-    // we need to print hte details of the form in console.
-    // to prevent the default behaviour of the form submission.
-    e.preventDefault();
-    console.log(form);
+  // const onSubmit = (e) => {
+  //   // we need to print hte details of the form in console.
+  //   // to prevent the default behaviour of the form submission.
+  //   e.preventDefault();
+  //   console.log(form);
 
-    const res = registerService(form);
-    // can we predict that rest call is succefull or not ? ===> no we can't predict the rest call is successful or not because it is asynchronous in nature.
-    res // then method : success part
-      .then((result) => {
-        console.log(result);
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        // catch : error part
-        console.log("inside the catch ");
-        console.log(error.response.data.errors);
-        // extract message and path and form the error array and assign it to the error state.
-        // temp array then array content -==> copy to set error. ==> performance
-        // direct. ==> changes must be applied to the errors state.
+  //   const res = registerService(form);
+  //   // can we predict that rest call is succefull or not ? ===> no we can't predict the rest call is successful or not because it is asynchronous in nature.
+  //   res // then method : success part
+  //     .then((result) => {
+  //       console.log(result);
+  //       navigate("/dashboard");
+  //     })
+  //     .catch((error) => {
+  //       // catch : error part
+  //       console.log("inside the catch ");
+  //       console.log(error.response.data.errors);
+  //       // extract message and path and form the error array and assign it to the error state.
+  //       // temp array then array content -==> copy to set error. ==> performance
+  //       // direct. ==> changes must be applied to the errors state.
 
-        error.response.data.errors.forEach((err) => {
-          console.log({ msg: err.msg, field: err.path });
-          setErrors((prev) => [...prev, { msg: err.msg, field: err.path }]);
-          // prev: arg which will hold the previous value of the state.
-          // ...prev: ur previous error array content / state content
-          // {msg, field} : new error object which we are getting from the backend for each error.
-        });
-      });
-  };
+  //       error.response.data.errors.forEach((err) => {
+  //         console.log({ msg: err.msg, field: err.path });
+  //         setErrors((prev) => [...prev, { msg: err.msg, field: err.path }]);
+  //         // prev: arg which will hold the previous value of the state.
+  //         // ...prev: ur previous error array content / state content
+  //         // {msg, field} : new error object which we are getting from the backend for each error.
+  //       });
+  //     });
+  // };
   // name
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerUserAction(form));
+  };
   const { name, email, password, password2 } = form;
 
   return (
